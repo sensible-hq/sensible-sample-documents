@@ -25,4 +25,4 @@ jobs:
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_bucket_name: sensible-so-utility-bucket-${{ matrix.env }}
           source: 'output'
-          destination: 'CONFIG_LIBRARY'
+          destination: 'SAMPLE_DOCUMENTS'
