@@ -1,0 +1,60 @@
+{
+  "fields": [
+    {
+      "id": "invoice_table",
+      "method": {
+        "id": "list",
+        "description": "itemized list of invoice",
+        "properties": [
+          {
+            "id": "item",
+            "description": "items",
+            "type": "string"
+          },
+          {
+            "id": "quantity",
+            "description": "qty",
+            "type": "string"
+          },
+          {
+            "id": "rate",
+            "description": "rate",
+            "type": "currency"
+          },
+          {
+            "id": "tax",
+            "description": "tax",
+            "type": "string"
+          },
+          {
+            "id": "amount",
+            "description": "amount",
+            "type": "currency"
+          }
+        ]
+      }
+    },
+    {
+      "id": "balance_due",
+      "method": {
+        "id": "query",
+        "description": "what is the balance due?"
+      },
+      "type": "currency"
+    },
+    {
+      "id": "invoice_number",
+      "method": {
+        "id": "query",
+        "description": "what is the invoice number?"
+      },
+      "type": "string"
+    }
+  ],
+  "preprocessors": [
+    {
+      "type": "nlp",
+      "confidenceSignals": true
+    }
+  ]
+}

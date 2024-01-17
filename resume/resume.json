@@ -1,0 +1,40 @@
+{
+  "fields": [
+    {
+      "id": "highest_level_education",
+      "method": {
+        "id": "query",
+        "description": "what is the highest level of education attained?"
+      },
+      "type": "string"
+    },
+    {
+      "id": "certifications",
+      "method": {
+        "id": "list",
+        "description": "certifications",
+        "properties": [
+          {
+            "id": "certifications",
+            "description": "certification",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "id": "experience_summary",
+      "method": {
+        "id": "query",
+        "description": "summarize this applicants work experience"
+      },
+      "type": "string"
+    }
+  ],
+  "preprocessors": [
+    {
+      "type": "nlp",
+      "confidenceSignals": true
+    }
+  ]
+}

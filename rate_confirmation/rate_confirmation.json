@@ -1,0 +1,34 @@
+{
+  "fields": [
+    {
+      "id": "weight",
+      "method": {
+        "id": "query",
+        "description": "what is the weight?"
+      },
+      "type": "string"
+    },
+    {
+      "id": "item",
+      "method": {
+        "id": "query",
+        "description": "what is the commodity?"
+      },
+      "type": "string"
+    },
+    {
+      "id": "carrier_pay",
+      "method": {
+        "id": "query",
+        "description": "what is the carrier pay?"
+      },
+      "type": "currency"
+    }
+  ],
+  "preprocessors": [
+    {
+      "type": "nlp",
+      "confidenceSignals": true
+    }
+  ]
+}

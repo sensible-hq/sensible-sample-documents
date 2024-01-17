@@ -1,0 +1,45 @@
+{
+  "fields": [
+    {
+      "id": "total_policy_premium",
+      "method": {
+        "id": "query",
+        "description": "how much is the premium?"
+      },
+      "type": "string"
+    },
+    {
+      "id": "table_of_coverage",
+      "method": {
+        "id": "nlpTable",
+        "description": "coverage table on page 3",
+        "columns": [
+          {
+            "id": "coverage",
+            "description": "coverage",
+            "type": "string"
+          },
+          {
+            "id": "limit",
+            "description": "limit",
+            "type": "currency"
+          }
+        ]
+      }
+    },
+    {
+      "id": "effective_date",
+      "method": {
+        "id": "query",
+        "description": "what is the start date of this policy term?"
+      },
+      "type": "date"
+    }
+  ],
+  "preprocessors": [
+    {
+      "type": "nlp",
+      "confidenceSignals": true
+    }
+  ]
+}

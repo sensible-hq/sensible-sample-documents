@@ -1,0 +1,45 @@
+{
+  "fields": [
+    {
+      "id": "security_deposit",
+      "method": {
+        "id": "query",
+        "description": "what is the security depost?"
+      },
+      "type": "currency"
+    },
+    {
+      "id": "purchase_amount",
+      "method": {
+        "id": "query",
+        "description": "what is the tenant's right to purchase price?"
+      },
+      "type": "currency"
+    },
+    {
+      "id": "rent_payment_terms",
+      "method": {
+        "id": "list",
+        "description": "rent payment terms on page 2",
+        "properties": [
+          {
+            "id": "period",
+            "description": "rent payment periods on page 2",
+            "type": "string"
+          },
+          {
+            "id": "amount",
+            "description": "payment",
+            "type": "currency"
+          }
+        ]
+      }
+    }
+  ],
+  "preprocessors": [
+    {
+      "type": "nlp",
+      "confidenceSignals": true
+    }
+  ]
+}
