@@ -1,0 +1,71 @@
+{
+  "fields": [
+    {
+      "id": "accounts_summary",
+      "method": {
+        "id": "nlpTable",
+        "description": "customer statement table",
+        "columns": [
+          {
+            "id": "account_name",
+            "description": "account names without totals",
+            "type": "string"
+          },
+          {
+            "id": "account_number",
+            "description": "account number",
+            "type": "string"
+          },
+          {
+            "id": "beginning_balance",
+            "description": "beginning balance",
+            "type": "currency"
+          },
+          {
+            "id": "ending_balance",
+            "description": "ending balance",
+            "type": "currency"
+          }
+        ]
+      }
+    },
+    {
+      "id": "deposits_in_property_taxes_savings",
+      "method": {
+        "id": "list",
+        "description": "ACH deposits in the property taxes savings account",
+        "properties": [
+          {
+            "id": "date",
+            "description": "date of ACH deposit",
+            "type": "date"
+          },
+          {
+            "id": "description",
+            "description": "description",
+            "type": "string"
+          },
+          {
+            "id": "credits",
+            "description": "credits",
+            "type": "currency"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ending_balance_all_accounts",
+      "method": {
+        "id": "query",
+        "description": "ending balance of all accounts"
+      },
+      "type": "currency"
+    }
+  ],
+  "preprocessors": [
+    {
+      "type": "nlp",
+      "confidenceSignals": true
+    }
+  ]
+}
