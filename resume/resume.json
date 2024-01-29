@@ -26,9 +26,9 @@
       "id": "experience_summary",
       "method": {
         "id": "query",
-        "description": "summarize this applicants work experience"
+        "description": "address"
       },
-      "type": "string"
+      "type": "address"
     }
   ],
   "preprocessors": [
