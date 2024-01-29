@@ -1,0 +1,50 @@
+{
+  "fields": [
+    {
+      "id": "filing_status",
+      "method": {
+        "id": "query",
+        "description": "what is the filing status on this form"
+      },
+      "type": "string"
+    },
+    {
+      "id": "taxable_income",
+      "method": {
+        "id": "query",
+        "description": "what is the taxable income on line 15"
+      },
+      "type": "currency"
+    },
+    {
+      "id": "dependents",
+      "method": {
+        "id": "list",
+        "description": "dependents",
+        "properties": [
+          {
+            "id": "name",
+            "description": "name (exclude names of individuals filing the return)",
+            "type": "string"
+          },
+          {
+            "id": "social_security",
+            "description": "social security",
+            "type": "string"
+          },
+          {
+            "id": "relationship",
+            "description": "relationship to you",
+            "type": "string"
+          }
+        ]
+      }
+    }
+  ],
+  "preprocessors": [
+    {
+      "type": "nlp",
+      "confidenceSignals": true
+    }
+  ]
+}
