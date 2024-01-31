@@ -23,7 +23,7 @@
       }
     },
     {
-      "id": "experience_summary",
+      "id": "address",
       "method": {
         "id": "query",
         "description": "address"
