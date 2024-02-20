@@ -16,65 +16,6 @@
       },
       "type": "string"
     },
-    {
-      "id": "test",
-      "method": {
-        "id": "nlpTable",
-        "description": "claim coverage amounts",
-        "columns": [
-          {
-            "id": "service_dates",
-            "description": "date of service",
-            "type": "string"
-          },
-          {
-            "id": "type_of_service",
-            "description": "type of service",
-            "type": "string"
-          },
-          {
-            "id": "amount_billed",
-            "description": "amount billed",
-            "type": "string"
-          },
-          {
-            "id": "discount",
-            "description": "discount amount",
-            "type": "string"
-          },
-          {
-            "id": "amount_not_covered",
-            "description": "amount not covered",
-            "type": "string"
-          },
-          {
-            "id": "covered_amount",
-            "description": "covered amount",
-            "type": "string"
-          },
-          {
-            "id": "copay_deductible",
-            "description": "copay/deductible amount",
-            "type": "string"
-          },
-          {
-            "id": "plan_paid",
-            "description": "plan paid amount",
-            "type": "string"
-          },
-          {
-            "id": "coinsurance",
-            "description": "coinsurance amount",
-            "type": "string"
-          },
-          {
-            "id": "patient_owes",
-            "description": "patient owes amount",
-            "type": "string"
-          }
-        ]
-      }
-    }
   ],
   "preprocessors": [
     {
