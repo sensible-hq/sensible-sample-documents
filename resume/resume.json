@@ -1,34 +1,26 @@
 {
   "fields": [
     {
-      "id": "highest_level_education",
       "method": {
-        "id": "query",
-        "description": "what is the highest level of education attained?"
-      },
-      "type": "string"
-    },
-    {
-      "id": "certifications",
-      "method": {
-        "id": "list",
-        "description": "certifications",
-        "properties": [
+        "id": "queryGroup",
+        "queries": [
           {
-            "id": "certifications",
-            "description": "certification",
+            "id": "recent_job_title",
+            "description": "what is their most recent job title?",
+            "type": "string"
+          },
+          {
+            "id": "email",
+            "description": "email",
+            "type": "string"
+          },
+          {
+            "id": "technical_skills",
+            "description": "technical skills",
             "type": "string"
           }
         ]
       }
-    },
-    {
-      "id": "address",
-      "method": {
-        "id": "query",
-        "description": "address"
-      },
-      "type": "address"
     }
   ],
   "preprocessors": [
