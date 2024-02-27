@@ -1,20 +1,26 @@
 {
   "fields": [
     {
-      "id": "filing_status",
       "method": {
-        "id": "query",
-        "description": "what is the filing status on this form"
-      },
-      "type": "string"
-    },
-    {
-      "id": "taxable_income",
-      "method": {
-        "id": "query",
-        "description": "what is the taxable income on line 15"
-      },
-      "type": "currency"
+        "id": "queryGroup",
+        "queries": [
+          {
+            "id": "address",
+            "description": "what is the address",
+            "type": "address"
+          },
+          {
+            "id": "taxable_income",
+            "description": "what is the total taxable income",
+            "type": "currency"
+          },
+          {
+            "id": "wages_salaries_tips",
+            "description": "What are the wages, salaries, and tips on line 1",
+            "type": "currency"
+          }
+        ]
+      }
     },
     {
       "id": "dependents",
