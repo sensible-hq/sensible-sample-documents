@@ -1,54 +1,50 @@
 {
   "fields": [
     {
-      "id": "invoice_table",
       "method": {
-        "id": "list",
-        "description": "itemized list of invoice",
-        "properties": [
+        "id": "queryGroup",
+        "queries": [
           {
-            "id": "item",
-            "description": "items",
+            "id": "invoice_number",
+            "description": "what is the invoice number?",
             "type": "string"
           },
           {
-            "id": "quantity",
-            "description": "qty",
-            "type": "string"
-          },
-          {
-            "id": "rate",
-            "description": "rate",
-            "type": "currency"
-          },
-          {
-            "id": "tax",
-            "description": "tax",
-            "type": "string"
-          },
-          {
-            "id": "amount",
-            "description": "amount",
+            "id": "balance_due",
+            "description": "what is the balance due?",
             "type": "currency"
           }
         ]
       }
     },
     {
-      "id": "balance_due",
+      "id": "invoice_list",
       "method": {
-        "id": "query",
-        "description": "what is the balance due?"
-      },
-      "type": "currency"
-    },
-    {
-      "id": "invoice_number",
-      "method": {
-        "id": "query",
-        "description": "what is the invoice number?"
-      },
-      "type": "string"
+        "id": "list",
+        "description": "invoice_list",
+        "properties": [
+          {
+            "id": "description",
+            "description": "description",
+            "type": "string"
+          },
+          {
+            "id": "qty",
+            "description": "qty",
+            "type": "string"
+          },
+          {
+            "id": "rate",
+            "description": "rate",
+            "type": "string"
+          },
+          {
+            "id": "amount",
+            "description": "amount",
+            "type": "string"
+          }
+        ]
+      }
     }
   ],
   "preprocessors": [
