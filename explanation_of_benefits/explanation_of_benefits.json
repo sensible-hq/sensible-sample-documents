@@ -1,21 +1,27 @@
 {
   "fields": [
     {
-      "id": "subscriber_id",
       "method": {
-        "id": "query",
-        "description": "what is the subscriber id"
-      },
-      "type": "string"
-    },
-    {
-      "id": "reference_number",
-      "method": {
-        "id": "query",
-        "description": "what is the reference number?"
-      },
-      "type": "string"
-    },
+        "id": "queryGroup",
+        "queries": [
+          {
+            "id": "check_number",
+            "description": "what is the check number",
+            "type": "string"
+          },
+          {
+            "id": "date",
+            "description": "what is the date",
+            "type": "date"
+          },
+          {
+            "id": "contact_phone_number",
+            "description": "what is the contact phone number",
+            "type": "phoneNumber"
+          }
+        ]
+      }
+    }
   ],
   "preprocessors": [
     {
