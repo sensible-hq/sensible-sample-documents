@@ -28,12 +28,21 @@
       }
     },
     {
-      "id": "effective_date",
       "method": {
-        "id": "query",
-        "description": "what is the start date of this policy term?"
-      },
-      "type": "date"
+        "id": "queryGroup",
+        "queries": [
+          {
+            "id": "effective_date",
+            "description": "what is the start date of this policy term?",
+            "type": "date"
+          },
+          {
+            "id": "phone_number",
+            "description": "what is the insurance company contact phone number (only numbers)",
+            "type": "phoneNumber"
+          }
+        ]
+      }
     }
   ],
   "preprocessors": [
