@@ -1,28 +1,26 @@
 {
   "fields": [
     {
-      "id": "delivery_address",
       "method": {
-        "id": "query",
-        "description": "what is the address of the consignee?"
-      },
-      "type": "address"
-    },
-    {
-      "id": "weight",
-      "method": {
-        "id": "query",
-        "description": "what is the weight?"
-      },
-      "type": "string"
-    },
-    {
-      "id": "purchase_order_number",
-      "method": {
-        "id": "query",
-        "description": "what is the purchase order number?"
-      },
-      "type": "string"
+        "id": "queryGroup",
+        "queries": [
+          {
+            "id": "delivery_address",
+            "description": "delivery address",
+            "type": "address"
+          },
+          {
+            "id": "total_weight",
+            "description": "what is the total weight?",
+            "type": "string"
+          },
+          {
+            "id": "bill_of_lading_number",
+            "description": "what is the bill of lading number?",
+            "type": "string"
+          }
+        ]
+      }
     }
   ],
   "preprocessors": [
