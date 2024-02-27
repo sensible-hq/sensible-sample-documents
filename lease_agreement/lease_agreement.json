@@ -1,12 +1,21 @@
 {
   "fields": [
     {
-      "id": "security_deposit",
       "method": {
-        "id": "query",
-        "description": "what is the security depost?"
-      },
-      "type": "currency"
+        "id": "queryGroup",
+        "queries": [
+          {
+            "id": "security_deposit",
+            "description": "what is the security depost?",
+            "type": "currency"
+          },
+          {
+            "id": "late_fee",
+            "description": "what is the late fee?",
+            "type": "string"
+          }
+        ]
+      }
     },
     {
       "id": "purchase_amount",
