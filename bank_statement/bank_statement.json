@@ -30,36 +30,38 @@
       }
     },
     {
-      "id": "deposits_in_property_taxes_savings",
       "method": {
-        "id": "list",
-        "description": "ACH deposits in the property taxes savings account",
-        "properties": [
+        "id": "queryGroup",
+        "queries": [
           {
-            "id": "date",
-            "description": "date of ACH deposit",
-            "type": "date"
+            "id": "ending_balance_all_accounts",
+            "description": "what is the total account balance, ending?",
+            "type": "currency"
           },
           {
-            "id": "description",
-            "description": "description",
-            "type": "string"
-          },
-          {
-            "id": "credits",
-            "description": "credits",
+            "id": "beginning_balance_all_accounts",
+            "description": "what is the total beginning account balance",
             "type": "currency"
           }
         ]
       }
     },
     {
-      "id": "ending_balance_all_accounts",
       "method": {
-        "id": "query",
-        "description": "ending balance of all accounts"
-      },
-      "type": "currency"
+        "id": "queryGroup",
+        "queries": [
+          {
+            "id": "name",
+            "description": "who does the bank statement belong to",
+            "type": "string"
+          },
+          {
+            "id": "address",
+            "description": "address of the owner of the bank statement",
+            "type": "address"
+          }
+        ]
+      }
     }
   ],
   "preprocessors": [
