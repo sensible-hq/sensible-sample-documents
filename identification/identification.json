@@ -1,36 +1,31 @@
 {
   "fields": [
     {
-      "id": "expiration_date",
       "method": {
-        "id": "query",
-        "description": "expiration date"
-      },
-      "type": "date"
-    },
-    {
-      "id": "drivers_license_number",
-      "method": {
-        "id": "query",
-        "description": "drivers license number"
-      },
-      "type": "string"
-    },
-    {
-      "id": "restrictions",
-      "method": {
-        "id": "query",
-        "description": "restrictions"
-      },
-      "type": "string"
-    },
-    {
-      "id": "date_of_birth",
-      "method": {
-        "id": "query",
-        "description": "date of birth"
-      },
-      "type": "date"
+        "id": "queryGroup",
+        "queries": [
+          {
+            "id": "expiration_date",
+            "description": "expiration date",
+            "type": "date"
+          },
+          {
+            "id": "drivers_license_number",
+            "description": "what is the drivers license number?",
+            "type": "string"
+          },
+          {
+            "id": "restrictions",
+            "description": "restrictions",
+            "type": "string"
+          },
+          {
+            "id": "date_of_birth",
+            "description": "date of birth",
+            "type": "string"
+          }
+        ]
+      }
     }
   ],
   "preprocessors": [
