@@ -39,4 +39,3 @@ for config in $CONFIGS; do
     }')
 done | jq -s )
 echo $MANIFEST >> output/manifest.json
-
