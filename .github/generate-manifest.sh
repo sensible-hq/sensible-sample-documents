@@ -11,6 +11,7 @@ for config in $CONFIGS; do
 
     for json in $associated_jsons; do
         jsonPath=(${json//\.\// })
+        jsonPathString=("{\"path\":\"${jsonPath}\",\"download_url\":\"${DOWNLOAD_URL_PREFIX}${jsonPath}\"}")
         fileNameJson=(${json//\.json/ })
         fileName=(${fileNameJson//\// })
         pdfFiles=$(echo "$LINES" | grep -v ".json" | grep "${fileName[1]}_sample") 
@@ -19,7 +20,7 @@ for config in $CONFIGS; do
             then
                 if ! grep -q "$jsonPathString" <<< "${files[@]}"; 
                 then
-                    files+=("{\"path\":\"${jsonPath}\",\"download_url\":\"${DOWNLOAD_URL_PREFIX}${jsonPath}\"}")
+                    files+=($jsonPathString)
                 fi
                 pdfPath=(${pdfFile//\.\// })
                 files+=("{\"path\":\"${pdfPath}\",\"download_url\":\"${DOWNLOAD_URL_PREFIX}${pdfPath}\"}")
