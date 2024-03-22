@@ -10,21 +10,17 @@ for config in $CONFIGS; do
     associated_jsons=$(echo "$LINES" | grep -v "config.json" | grep ".json" | grep "/${config_path[1]}/")
 
     for json in $associated_jsons; do
-        jsonPath=(${json//\.\// })
-        jsonPathString=("{\"path\":\"${jsonPath}\",\"download_url\":\"${DOWNLOAD_URL_PREFIX}${jsonPath}\"}")
-        fileNameJson=(${json//\.json/ })
-        fileName=(${fileNameJson//\// })
-        pdfFiles=$(echo "$LINES" | grep -v ".json" | grep "${fileName[1]}_sample") 
-        for pdfFile in $pdfFiles; do
-            if grep -q "$pdfFile" <<< "$LINES";
+        filePath=(${json//\.json/ })
+        pdfPaths=$(echo "$LINES" | grep -v ".json" | grep "${filePath}_sample") 
+        for pdfPath in $pdfPaths; do
+            jsonFile=(${json//\.\// })
+            jsonFileString=("{\"path\":\"${jsonFile}\",\"download_url\":\"${DOWNLOAD_URL_PREFIX}${jsonFile}\"}")
+            if [[ ! ${files[@]} =~ $jsonFileString ]];
             then
-                if ! grep -q "$jsonPathString" <<< "${files[@]}"; 
-                then
-                    files+=($jsonPathString)
-                fi
-                pdfPath=(${pdfFile//\.\// })
-                files+=("{\"path\":\"${pdfPath}\",\"download_url\":\"${DOWNLOAD_URL_PREFIX}${pdfPath}\"}")
+                files+=("$jsonFileString")
             fi
+            pdfFile=(${pdfPath//\.\// })
+            files+=("{\"path\":\"${pdfFile}\",\"download_url\":\"${DOWNLOAD_URL_PREFIX}${pdfFile}\"}")
         done
     done
 
