@@ -1,7 +1,7 @@
 #!/bin/bash
 mkdir output
 DOWNLOAD_URL_PREFIX="https://raw.githubusercontent.com/sensible-hq/sensible-sample-documents/main/"
-LINES=$(find . -name "*.*" | grep -v "\/\." | grep ".json\|.pdf\|.png")
+LINES=$(find . -name "*.*" | grep -v "\/\." | grep ".json\|.pdf")
 CONFIGS=$(echo "$LINES" | grep "config.json")
 MANIFEST=$(
 for config in $CONFIGS; do
