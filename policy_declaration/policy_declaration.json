@@ -1,12 +1,16 @@
 {
   "fields": [
     {
-      "id": "total_policy_premium",
       "method": {
-        "id": "query",
-        "description": "how much is the premium?"
-      },
-      "type": "string"
+        "id": "queryGroup",
+        "queries": [
+          {
+            "id": "total_policy_premium",
+            "description": "how much is the premium?",
+            "type": "string"
+          }
+        ]
+      }
     },
     {
       "id": "table_of_coverage",
