@@ -27,7 +27,7 @@ async function uploadManifest(manifest: string) {
         s3.send(
           new PutObjectCommand({
             Bucket: `sensible-so-utility-bucket-${stage}-${region}`,
-            Key: "CONFIG_LIBRARY/manifest_v2.json",
+            Key: "SAMPLE_DOCUMENTS/manifest_v2.json",
             Body: manifest,
             ContentMD5,
             ContentType: "application/json",
@@ -94,7 +94,7 @@ async function main() {
   await new S3Client({ region: "us-west-2" }).send(
     new ListObjectsV2Command({
       Bucket: "sensible-so-utility-bucket-dev-us-west-2",
-      Prefix: "CONFIG_LIBRARY/",
+      Prefix: "SAMPLE_DOCUMENTS/",
     })
   );
 }
