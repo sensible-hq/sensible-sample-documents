@@ -8,24 +8,21 @@ on:
 
 jobs:
   generate-manifest:
-    strategy:
-      matrix:
-        env: [prod-us-west-2, dev-us-west-2, exp1-us-west-2, prod-eu-west-2, prod-ca-central-1]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@main
-      - name: install jq
-        run: sudo apt-get install jq
-      - name: Make manifest
-        run: . .github/generate-manifest.sh
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+      - name: Setup node
+        uses: actions/setup-node@v4
         with:
-          # this region doesn't matter, s3 is global
-          aws-region: us-west-2
-          aws-access-key-id: ${{ secrets.AWS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      - name: Upload manifest.json to ${{ matrix.env }}
-        run: |
-          aws s3 cp output/manifest.json s3://sensible-so-utility-bucket-${{ matrix.env }}/SAMPLE_DOCUMENTS/manifest_v2.json
+          node-version: lts/Hydrogen
+          cache: npm
+      # need to cd into the directory for each command
+      # possibly a better organization exists but this works for now
+      - name: Install dependencies
+        run: cd .github/generator && npm ci
+      - name: Generate manifest.json
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: cd .github/generator && src/generate-manifest.ts
