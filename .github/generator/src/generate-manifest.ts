@@ -69,7 +69,6 @@ async function generateManifest(): Promise<string> {
   const isRepoFile = (dir: Dirent): boolean => {
     return (
       !dir.path?.includes(".") &&
-      !dir.path?.includes("node_modules") &&
       !!dir.name.match(/.*\.(pdf|png|json)/)
     );
   };
