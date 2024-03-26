@@ -7,7 +7,8 @@ import {
 } from "@aws-sdk/client-s3";
 import { createHash } from "crypto";
 import path from "path";
-import fs from "fs";
+import * as fs from "fs/promises";
+import { Dirent } from "fs";
 
 const DOWNLOAD_URL_PREFIX =
   "https://raw.githubusercontent.com/sensible-hq/sensible-sample-documents/main";
@@ -38,7 +39,7 @@ async function uploadManifest(manifest: string) {
   );
 }
 
-function generateManifest(): string {
+async function generateManifest(): Promise<string> {
   const root = path.join(__dirname, "..", "..", "..");
 
   type Manifest = Entry[];
@@ -60,36 +61,59 @@ function generateManifest(): string {
     download_url: string;
   };
 
-  const directory = fs.readdirSync(root, { withFileTypes: true });
+  const directory = await fs.readdir(root, {
+    withFileTypes: true,
+    recursive: true,
+  });
+
+  const isRepoFile = (dir: Dirent): boolean => {
+    return (
+      !dir.path?.includes(".") &&
+      !dir.path?.includes("node_modules") &&
+      !!dir.name.match(/.*\.(pdf|png|json)/)
+    );
+  };
+
+  const isConfigFile = (dir: Dirent): boolean => {
+    return isRepoFile(dir) && dir.name === "config.json";
+  };
+
+  const getFolder = (path: string) => path.split("/").slice(-1)[0];
 
   const manifest: Manifest = [];
-  for (const dir of directory) {
+  for (const config of directory.filter((f) => isConfigFile(f))) {
     const entry: Entry = {};
     const files: RepoFile[] = [];
-    if (dir.isDirectory() && !dir.name.startsWith(".")) {
-      const innerFiles = fs.readdirSync(`${root}/${dir.name}`);
-      for (const innerFile of innerFiles) {
-        if (innerFile == "config.json") {
-          const configData: ConfigDataReturn = JSON.parse(
-            fs.readFileSync(`${root}/${dir.name}/${innerFile}`, "utf-8")
-          );
-          entry.config_data = { path: dir.name, ...configData };
-        } else {
-          files.push({
-            path: `${dir.name}/${innerFile}`,
-            download_url: `${DOWNLOAD_URL_PREFIX}/${dir.name}/${innerFile}`,
-          });
-        }
-      }
-      entry.files = files;
-      manifest.push(entry);
+    entry.config_data = {
+      path: getFolder(config.path),
+      ...JSON.parse(
+        await fs.readFile(`${config.path}/${config.name}`, "utf-8")
+      ),
+    };
+
+    const associatedFiles = directory.filter(
+      (f) =>
+        getFolder(f.path) == getFolder(config.path) &&
+        isRepoFile(f) &&
+        !isConfigFile(f)
+    );
+
+    for (const associatedFile of associatedFiles) {
+      files.push({
+        path: `${getFolder(associatedFile.path)}/${associatedFile.name}`,
+        download_url: `${DOWNLOAD_URL_PREFIX}/${getFolder(
+          associatedFile.path
+        )}/${associatedFile.name}`,
+      });
     }
+    entry.files = files;
+    manifest.push(entry);
   }
-  return JSON.stringify(manifest);
+  return JSON.stringify(manifest, null, 2);
 }
 
 async function main() {
-  const manifest = generateManifest();
+  const manifest = await generateManifest();
   await uploadManifest(manifest);
   await new S3Client({ region: "us-west-2" }).send(
     new ListObjectsV2Command({
