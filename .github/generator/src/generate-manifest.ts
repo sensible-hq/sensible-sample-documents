@@ -1,7 +1,6 @@
 #!/usr/bin/env -S npx ts-node -T
 
 import {
-  ListObjectsV2Command,
   PutObjectCommand,
   S3Client,
 } from "@aws-sdk/client-s3";
@@ -24,6 +23,9 @@ async function uploadManifest(manifest: string) {
   await Promise.all(
     Object.entries(targets).flatMap(async ([region, stages]) => {
       const s3 = new S3Client({ region });
+      console.log(
+        `Uploading manifest to ${region} in stage${stages.length === 1 ? "" : "s"}: ${stages.join(", ")}`
+      )
       return stages.map(async (stage) =>
         s3.send(
           new PutObjectCommand({
@@ -120,12 +122,6 @@ async function generateManifest(): Promise<string> {
 async function main() {
   const manifest = await generateManifest();
   await uploadManifest(manifest);
-  await new S3Client({ region: "us-west-2" }).send(
-    new ListObjectsV2Command({
-      Bucket: "sensible-so-utility-bucket-dev-us-west-2",
-      Prefix: "SAMPLE_DOCUMENTS/",
-    })
-  );
 }
 
 main().catch((error) => {
