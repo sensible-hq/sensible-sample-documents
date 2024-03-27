@@ -42,6 +42,7 @@ async function uploadManifest(manifest: string) {
 async function generateManifest(): Promise<string> {
   const root = path.join(__dirname, "..", "..", "..");
 
+  //types
   type Manifest = Entry[];
 
   type Entry = {
@@ -61,28 +62,32 @@ async function generateManifest(): Promise<string> {
     download_url: string;
   };
 
-  const directory = await fs.readdir(root, {
-    withFileTypes: true,
-    recursive: true,
-  });
-
+  //helpers
   const isRepoFile = (dir: Dirent): boolean => {
-    return (
-      !dir.path?.includes(".") &&
-      !!dir.name.match(/.*\.(pdf|png|json)/)
-    );
+    return !dir.path?.includes(".") && !!dir.name.match(/.*\.(pdf|png|json)/);
   };
 
   const isConfigFile = (dir: Dirent): boolean => {
     return isRepoFile(dir) && dir.name === "config.json";
   };
 
+  //assumes files are only one folder deep
   const getFolder = (path: string) => path.split("/").slice(-1)[0];
 
+  //find all files in repo
+  const directory = await fs.readdir(root, {
+    withFileTypes: true,
+    recursive: true,
+  });
+
   const manifest: Manifest = [];
+
+  //loop through config.json files
   for (const config of directory.filter((f) => isConfigFile(f))) {
     const entry: Entry = {};
     const files: RepoFile[] = [];
+
+    //set entry config data
     entry.config_data = {
       path: getFolder(config.path),
       ...JSON.parse(
@@ -90,6 +95,7 @@ async function generateManifest(): Promise<string> {
       ),
     };
 
+    //get all files associated with config and add to files
     const associatedFiles = directory.filter(
       (f) =>
         getFolder(f.path) == getFolder(config.path) &&
@@ -108,7 +114,7 @@ async function generateManifest(): Promise<string> {
     entry.files = files;
     manifest.push(entry);
   }
-  return JSON.stringify(manifest, null, 2);
+  return JSON.stringify(manifest);
 }
 
 async function main() {
