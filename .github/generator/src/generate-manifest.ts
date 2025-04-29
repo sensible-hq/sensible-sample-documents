@@ -15,6 +15,7 @@ const DOWNLOAD_URL_PREFIX =
 const targets: Record<string, readonly string[]> = {
   "us-west-2": ["prod", "dev", "exp1"],
   "eu-west-2": ["prod"],
+  "eu-west-3": ["prod"],
   "ca-central-1": ["prod"],
 } as const;
 
