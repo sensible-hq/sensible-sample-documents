@@ -6,8 +6,8 @@
     "node": "18"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "3.523.0",
-    "@aws-sdk/credential-providers": "3.523.0"
+    "@aws-sdk/client-s3": "3.965.0",
+    "@aws-sdk/credential-providers": "3.965.0"
   },
   "devDependencies": {
     "@types/jest": "^29",
