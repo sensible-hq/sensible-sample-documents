@@ -1,45 +1,13 @@
 #!/usr/bin/env -S npx ts-node -T
 
-import {
-  PutObjectCommand,
-  S3Client,
-} from "@aws-sdk/client-s3";
-import { createHash } from "crypto";
+import { mkdirSync, writeFileSync } from "fs";
 import path from "path";
 import * as fs from "fs/promises";
 import { Dirent } from "fs";
 
-const DOWNLOAD_URL_PREFIX =
-  "https://raw.githubusercontent.com/sensible-hq/sensible-sample-documents/main";
-
-const targets: Record<string, readonly string[]> = {
-  "us-west-2": ["prod", "dev", "exp1"],
-  "eu-west-3": ["prod"],
-  "ca-central-1": ["prod"],
-} as const;
-
-async function uploadManifest(manifest: string) {
-  const ContentMD5 = createHash("md5").update(manifest).digest("base64");
-  await Promise.all(
-    Object.entries(targets).flatMap(async ([region, stages]) => {
-      const s3 = new S3Client({ region });
-      console.log(
-        `Uploading manifest to ${region} in stage${stages.length === 1 ? "" : "s"}: ${stages.join(", ")}`
-      )
-      return stages.map(async (stage) =>
-        s3.send(
-          new PutObjectCommand({
-            Bucket: `sensible-so-utility-bucket-${stage}-${region}`,
-            Key: "SAMPLE_DOCUMENTS/manifest_v2.json",
-            Body: manifest,
-            ContentMD5,
-            ContentType: "application/json",
-          })
-        )
-      );
-    })
-  );
-}
+// Base for the public URL of each sample file. Sample documents are served from
+// the config-library bucket under the samples/ prefix, fronted by Cloudflare.
+const DOWNLOAD_URL_PREFIX = "https://template-library.sensible.so/samples";
 
 async function generateManifest(): Promise<string> {
   const root = path.join(__dirname, "..", "..", "..");
@@ -66,7 +34,9 @@ async function generateManifest(): Promise<string> {
 
   //helpers
   const isRepoFile = (dir: Dirent): boolean => {
-    return !dir.path?.includes(".") && !!dir.name.match(/.*\.(pdf|png|json)/);
+    return (
+      !dir.parentPath?.includes(".") && !!dir.name.match(/.*\.(pdf|png|json)/)
+    );
   };
 
   const isConfigFile = (dir: Dirent): boolean => {
@@ -91,25 +61,25 @@ async function generateManifest(): Promise<string> {
 
     //set entry config data
     entry.config_data = {
-      path: getFolder(config.path),
+      path: getFolder(config.parentPath),
       ...JSON.parse(
-        await fs.readFile(`${config.path}/${config.name}`, "utf-8")
+        await fs.readFile(`${config.parentPath}/${config.name}`, "utf-8"),
       ),
     };
 
     //get all files associated with config and add to files
     const associatedFiles = directory.filter(
       (f) =>
-        getFolder(f.path) == getFolder(config.path) &&
+        getFolder(f.parentPath) == getFolder(config.parentPath) &&
         isRepoFile(f) &&
-        !isConfigFile(f)
+        !isConfigFile(f),
     );
 
     for (const associatedFile of associatedFiles) {
       files.push({
-        path: `${getFolder(associatedFile.path)}/${associatedFile.name}`,
+        path: `${getFolder(associatedFile.parentPath)}/${associatedFile.name}`,
         download_url: `${DOWNLOAD_URL_PREFIX}/${getFolder(
-          associatedFile.path
+          associatedFile.parentPath,
         )}/${associatedFile.name}`,
       });
     }
@@ -121,7 +91,12 @@ async function generateManifest(): Promise<string> {
 
 async function main() {
   const manifest = await generateManifest();
-  await uploadManifest(manifest);
+  // Repo-root output/ (gitignored). The CI workflow uploads this manifest and
+  // syncs the sample content to the config-library bucket's samples/ prefix.
+  const outputDir = path.join(__dirname, "..", "..", "..", "output");
+  mkdirSync(outputDir, { recursive: true });
+  writeFileSync(path.join(outputDir, "manifest_v2.json"), manifest);
+  console.log(`Wrote manifest to ${path.join(outputDir, "manifest_v2.json")}`);
 }
 
 main().catch((error) => {
